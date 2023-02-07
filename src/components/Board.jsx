@@ -1,4 +1,5 @@
-import Letter from "./Letter";
+import React from 'react';
+import Letter from './Letter';
 
 function Board() {
   return (
