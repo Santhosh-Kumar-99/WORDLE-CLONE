@@ -1,24 +1,23 @@
-import "./App.css";
-import Board from "./components/Board";
-import KeyBoard from "./components/KeyBoard";
-import { createContext, useState, useEffect } from "react";
-import { boardDefault, generateWordSet } from "./Word";
-import GameOver from "./components/GameOver";
+import React, { createContext, useState, useEffect } from 'react';
+import './App.css';
+import Board from './components/Board';
+import KeyBoard from './components/KeyBoard';
+import { boardDefault, generateWordSet } from './Word';
+import GameOver from './components/GameOver';
 
 export const AppContext = createContext(null);
 
 function App() {
   const [board, setboard] = useState(boardDefault);
   const [currAttempt, setcurrAttempt] = useState({ attempt: 0, letterPos: 0 });
-  const [wordSet, setWordSet] = useState(new Set()); //useState(new Set());
+  const [wordSet, setWordSet] = useState(new Set()); // useState(new Set());
   const [disabledLetters, setDisabledLetters] = useState([]);
-  const [correctWord, setCorrectWord] = useState("");
+  const [correctWord, setCorrectWord] = useState('');
   const [gameOver, setGameOver] = useState({
     gameOver: false,
     guessedWord: false,
   });
 
-  console.log(wordSet);
   useEffect(() => {
     generateWordSet().then((words) => {
       setWordSet(words.wordSet);
@@ -28,15 +27,14 @@ function App() {
 
   const onEnter = () => {
     if (currAttempt.letterPos !== 5) return;
-    let currWord = "";
-    for (let i = 0; i < 5; i++) {
+    let currWord = '';
+    for (let i = 0; i < 5; i += 1) {
       currWord += board[currAttempt.attempt][i];
     }
-    console.log(currWord);
     if (wordSet.has(currWord.toLowerCase())) {
       setcurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 });
     } else {
-      alert("Word Not Found!");
+      alert('Word Not Found!');
     }
     if (currWord === correctWord) {
       setGameOver({ gameOver: true, guessedWord: true });
@@ -50,7 +48,7 @@ function App() {
   const onDelete = () => {
     if (currAttempt.letterPos === 0) return;
     const currBoard = [...board];
-    currBoard[currAttempt.attempt][currAttempt.letterPos - 1] = "";
+    currBoard[currAttempt.attempt][currAttempt.letterPos - 1] = '';
     setboard(currBoard);
     setcurrAttempt({ ...currAttempt, letterPos: currAttempt.letterPos - 1 });
   };
@@ -85,8 +83,8 @@ function App() {
         }}
       >
         <div className="game">
-          <Board></Board>
-          {gameOver.gameOver ? <GameOver /> : <KeyBoard></KeyBoard>}
+          <Board />
+          {gameOver.gameOver ? <GameOver /> : <KeyBoard />}
         </div>
       </AppContext.Provider>
     </div>
